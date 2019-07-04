@@ -2,14 +2,13 @@ package com.example.conductor.api.restAssured;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.ResponseSpecBuilder;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 
-import static org.hamcrest.core.IsEqual.equalTo;
+
 
 
 public class RestAssuredTest {
@@ -41,7 +40,7 @@ public class RestAssuredTest {
                     .log()
                     .ifValidationFails()
                     .statusCode(200)
-                    .body("nome", equalTo("neil"));
+                    .body("nome", CoreMatchers.equalTo("neil"));
 
 
     }
@@ -72,6 +71,7 @@ public class RestAssuredTest {
         HashMap<String, String> cliente = new HashMap<>();
         cliente.put("nome", "Editado");
         cliente.put("email", "editado@editado.com");
+        cliente.put("senha", "12345");
 
         RestAssured.given()
                 .header("Content-Type", "application/json")
