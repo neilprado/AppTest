@@ -3,6 +3,8 @@ package com.example.conductor.api.cadastroClientes.controller;
 import com.example.conductor.api.cadastroClientes.exception.ClienteException;
 import com.example.conductor.api.cadastroClientes.model.Cliente;
 import com.example.conductor.api.cadastroClientes.repository.ClienteRepository;
+import com.example.conductor.api.cadastroClientes.service.ClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +13,13 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class ClienteController {
+
+    @Autowired
+    private ClienteService service;
 
     private final ClienteRepository dao;
 
@@ -21,19 +27,19 @@ public class ClienteController {
         this.dao = dao;
     }
 
-    @PostMapping("cliente/login")
-    public ResponseEntity<String> login(@RequestBody Cliente c){
-       Cliente cliente = dao.findByEmail(c.getEmail());
-
-        if(cliente.getSenha().equals(c.getSenha())) {
-            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
-        }
-        if (cliente == null){
-           return ResponseEntity.notFound().build();
-       }
-       String token = "TokenGeneratedDone";
-       return ResponseEntity.ok(token);
-    }
+//    @PostMapping("cliente/login")
+//    public ResponseEntity<String> login(@RequestBody Cliente c){
+//       Cliente cliente = dao.findByEmail(c.getEmail());
+//
+//        if(cliente.getSenha().equals(c.getSenha())) {
+//            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+//        }
+//        if (cliente == null){
+//           return ResponseEntity.notFound().build();
+//       }
+//       String token = "TokenGeneratedDone";
+//       return ResponseEntity.ok(token);
+//    }
 
     @GetMapping("/cliente")
     public ResponseEntity<List<Cliente>> listAll(){
@@ -76,6 +82,33 @@ public class ClienteController {
         c.setSenha(cliente.getSenha());
         c.setEndereco(cliente.getEndereco());
         return ResponseEntity.ok(dao.save(c));
+    }
+
+
+
+
+    @GetMapping
+    public List<Cliente> listar() {
+        return service.listar();
+    }
+
+    @PostMapping
+    public Cliente adicionar(@RequestBody Cliente c) { return service.adicionar(c); }
+
+    @GetMapping(path = {"/{id}"})
+    public Cliente listarId(@PathVariable("id") int id) {
+        return service.listarId(id);
+    }
+
+    @PutMapping(path = {"/{id}"})
+    public Cliente editar(@RequestBody Cliente c, @PathVariable("id") long id) {
+        c.setId(id);
+        return service.editar(c);
+    }
+
+    @DeleteMapping
+    public Cliente delete(@PathVariable("id") int id) {
+        return service.deletar(id);
     }
 
 }

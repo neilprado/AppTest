@@ -37,7 +37,6 @@ public class ClienteIntegrationTest {
 
     @Test
     public void listAllClientsWithSuccess(){
-        List<Cliente>
         Cliente c2 = ClienteBuilder.getCliente().changeName("Teste 2").changeEmail("teste2@teste2.com").now();
         Cliente c3 = ClienteBuilder.getCliente().changeName("Teste 3").changeEmail("teste3@test3.com").now();
         
