@@ -3,6 +3,7 @@ package com.example.conductor.api.cadastroClientes.controller;
 import com.example.conductor.api.cadastroClientes.exception.ClienteException;
 import com.example.conductor.api.cadastroClientes.model.Cliente;
 import com.example.conductor.api.cadastroClientes.repository.ClienteRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +24,10 @@ public class ClienteController {
     @PostMapping("cliente/login")
     public ResponseEntity<String> login(@RequestBody Cliente c){
        Cliente cliente = dao.findByEmail(c.getEmail());
-       System.out.println(c.getEmail());
-       System.out.println(cliente.getEmail());
 
-       System.out.println(c.getSenha());
-       System.out.println(cliente.getSenha());
-
-       // if(cliente.getSenha() != c.getSenha()) {
+        if(cliente.getSenha().equals(c.getSenha())) {
+            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
         if (cliente == null){
            return ResponseEntity.notFound().build();
        }

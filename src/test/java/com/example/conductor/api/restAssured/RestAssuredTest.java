@@ -5,6 +5,7 @@ import io.restassured.builder.ResponseSpecBuilder;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.annotation.Order;
 
 import java.util.HashMap;
 
@@ -23,6 +24,7 @@ public class RestAssuredTest {
     }
 
     @Test
+    @Order(2)
     public void testSuccessWhenGetAllClients(){
         RestAssured.given()
                         .when()
@@ -32,7 +34,8 @@ public class RestAssuredTest {
     }
 
     @Test
-    public void testSuccesswhenFindNeil(){
+    @Order(3)
+    public void testSuccesswhenFindAClient(){
         RestAssured.given()
                     .when()
                     .get("/api/cliente/{id}", 1)
@@ -40,16 +43,17 @@ public class RestAssuredTest {
                     .log()
                     .ifValidationFails()
                     .statusCode(200)
-                    .body("nome", CoreMatchers.equalTo("neil"));
+                    .body("nome", CoreMatchers.equalTo("Neil"));
 
 
     }
 
     @Test
+    @Order(1)
     public void creatingClientWithStatusOK() {
         HashMap<String, String> cliente = new HashMap<>();
-        cliente.put("nome", "João");
-        cliente.put("email", "joabo@joao.com");
+        cliente.put("nome", "José");
+        cliente.put("email", "jose@jose.com");
         cliente.put("senha", "123");
 
         RestAssured.given()
@@ -59,14 +63,16 @@ public class RestAssuredTest {
     }
 
     @Test
+    @Order(5)
     public void deletingClientWithStatusOk(){
         RestAssured.given()
                 .when()
-                .delete("/api/cliente/{id}", 11)
+                .delete("/api/cliente/{id}", 4)
                 .then().spec(success.build());
     }
 
     @Test
+    @Order(4)
     public void updatingClientWithStatusOk(){
         HashMap<String, String> cliente = new HashMap<>();
         cliente.put("nome", "Editado");
@@ -76,7 +82,7 @@ public class RestAssuredTest {
         RestAssured.given()
                 .header("Content-Type", "application/json")
                 .body(cliente)
-                .when().put("/api/cliente/{id}", 1)
+                .when().put("/api/cliente/{id}", 5)
                 .then().spec(success.build());
     }
 }
