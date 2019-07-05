@@ -41,4 +41,9 @@ public class ClienteBuilder {
         cliente.setTelefone(phone);
         return this;
     }
+
+    public ClienteBuilder changeId(Long id){
+        cliente.setId(id);
+        return this;
+    }
 }
