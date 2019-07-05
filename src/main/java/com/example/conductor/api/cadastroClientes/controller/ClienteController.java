@@ -27,19 +27,20 @@ public class ClienteController {
         this.dao = dao;
     }
 
-//    @PostMapping("cliente/login")
-//    public ResponseEntity<String> login(@RequestBody Cliente c){
-//       Cliente cliente = dao.findByEmail(c.getEmail());
-//
-//        if(cliente.getSenha().equals(c.getSenha())) {
-//            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
-//        }
-//        if (cliente == null){
-//           return ResponseEntity.notFound().build();
-//       }
-//       String token = "TokenGeneratedDone";
-//       return ResponseEntity.ok(token);
-//    }
+    @PostMapping("cliente/login")
+    public ResponseEntity<String> login(@RequestBody Cliente c){
+       Cliente cliente = dao.findByEmail(c.getEmail());
+       System.out.println(cliente);
+
+        if(!cliente.getSenha().equals(c.getSenha())) {
+            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+        if (cliente == null){
+           return ResponseEntity.notFound().build();
+       }
+       String token = "TokenGeneratedDone";
+       return ResponseEntity.ok(token);
+    }
 
     @GetMapping("/cliente")
     public ResponseEntity<List<Cliente>> listAll(){

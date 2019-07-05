@@ -38,11 +38,6 @@ public class ClienteIntegrationTest {
 
     @Test
     public void listAllClientsWithSuccess(){
-<<<<<<< HEAD
-        Cliente c2 = ClienteBuilder.getCliente().changeName("Teste 2").changeEmail("teste2@teste2.com").now();
-        Cliente c3 = ClienteBuilder.getCliente().changeName("Teste 3").changeEmail("teste3@test3.com").now();
-        
-=======
         List<Cliente>  clientes = new ArrayList<Cliente>();
         clientes.add(ClienteBuilder.getCliente().changeName("Teste 2").changeEmail("teste2@teste2.com").now());
         clientes.add(ClienteBuilder.getCliente().changeName("Teste 3").changeEmail("teste3@test3.com").now());
@@ -66,6 +61,5 @@ public class ClienteIntegrationTest {
                 .changeName("Será removido").changeEmail("delete@delete.com").now();
         dao.delete(toDelete);
         Mockito.verify(dao, Mockito.times(1)).delete(toDelete);
->>>>>>> cbdb6cbfacf035eb16a6f8bac8ac84b332b510c5
     }
 }
